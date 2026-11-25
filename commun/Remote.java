@@ -4,7 +4,7 @@
  * Minimal HTTP/JSON client used by the storage server to talk to another
  * server (the naming server for /register, another storage server for copy).
  */
-package storage;
+package commun;
 
 import com.google.gson.Gson;
 

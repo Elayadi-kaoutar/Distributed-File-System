@@ -35,15 +35,9 @@ public class StorageServer {
         clientServer.createContext("/storage_write", handlers.write());
         commandServer.createContext("/storage_create", handlers.create());
         commandServer.createContext("/storage_delete", handlers.delete());
-        commandServer.createContext("/storage_copy", notImplemented());
+        commandServer.createContext("/storage_copy", handlers.copy());
     }
 
-    private static HttpHandler notImplemented() {
-        return exchange -> {
-            exchange.sendResponseHeaders(501, -1);
-            exchange.close();
-        };
-    }
 
     private void start() {
         clientServer.start();

@@ -9,6 +9,8 @@ package storage;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.google.gson.Gson;
+import commun.HttpUtil;
+import commun.Remote;
 import jsonhelper.BooleanReturn;
 import jsonhelper.CopyRequest;
 import jsonhelper.DataReturn;
@@ -44,19 +46,19 @@ public class StorageHandlers {
      * Builds a handler that enforces POST, parses the JSON body (400 if
      * invalid) and then runs the given action.
      */
-    private <T> HttpHandler post(Class<T> type, Action<T> action) {
+    public static  <T> HttpHandler post(Class<T> type, Action<T> action) {
         return exchange -> {
-            try {
-                if (!HttpUtil.requirePost(exchange)) {
-                    return;
-                }
-                T request = HttpUtil.readJson(exchange, type);
-                if (request == null) {
-                    HttpUtil.sendBadRequest(exchange);
-                    return;
-                }
-                action.run(exchange, request);
-            } catch (Exception e) {
+            try{
+            if(!HttpUtil.requirePost(exchange)){
+                return;
+            }
+            T req =HttpUtil.readJson(exchange,type);
+            if(req==null){
+                HttpUtil.sendBadRequest(exchange);
+                return;
+            }
+            action.run(exchange,req);
+        }catch (Exception e) {
                 try {
                     HttpUtil.sendError(exchange, 500, "IOException", String.valueOf(e));
                 } catch (Exception ignored) {

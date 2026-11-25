@@ -8,6 +8,7 @@
 package storage;
 
 import com.google.gson.Gson;
+import commun.Remote;
 import jsonhelper.FilesReturn;
 import jsonhelper.RegisterRequest;
 
@@ -38,7 +39,7 @@ public final class Registration {
 
         RegisterRequest request =
                 new RegisterRequest(ip, clientPort, commandPort, files.toArray(new String[0]));
-        HttpResponse<String> response = Remote.post("localhost", namingPort, "/register", request);
+        HttpResponse<String> response = Remote.post(ip, namingPort, "/register", request);
 
         if (response.statusCode() == 409) {
             return false;

@@ -5,7 +5,7 @@ package storage;
 import java.io.File;
 import java.io.IOException;
 
-public final class PathUtil {
+public final  class PathUtil {
     private PathUtil() {
     }
 
@@ -24,7 +24,6 @@ public final class PathUtil {
         }
         return true;
     }
-
     /**
      * Converts a distributed path to the matching local file. Empty components
      * are dropped, so "/" is the root itself and "//a///b" is "/a/b".
@@ -34,23 +33,24 @@ public final class PathUtil {
      */
     public static File toLocalFile(File root, String path) {
         if (!isValid(path)) {
-            throw new IllegalArgumentException("Invalid path: " + path);
+            throw new IllegalArgumentException(path + " is not a valid path");
         }
-        File file = root;
+        File res = root;
         for (String part : path.split("/")) {
-            if (!part.isEmpty()) {
-                file = new File(file, part);
+            if (part.isEmpty()) {
+                continue;
             }
+            res = new File(res, part);
         }
-        try {
-            String rootPath = root.getCanonicalPath();
-            String filePath = file.getCanonicalPath();
-            if (!filePath.equals(rootPath) && !filePath.startsWith(rootPath + File.separator)) {
-                throw new IllegalArgumentException("Path escapes root: " + path);
+            try {
+                String rootPath = root.getCanonicalPath();
+                String resPath = res.getCanonicalPath();
+                if (!resPath.startsWith(rootPath + File.separator)) {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Cannot resolve path: " + path);
             }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Cannot resolve path: " + path);
-        }
-        return file;
+        return res;
     }
 }

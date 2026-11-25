@@ -4,7 +4,7 @@
 # - JAVAFILES is all of the Java files in the project, including test cases and
 #   build tools.
 
-DFSPACKAGES = common
+DFSPACKAGES = commun
 ARCHIVE = project3.zip
 JARFILE = gson-2.8.6.jar
 JAVAFILES = */*.java */*/*.java
@@ -57,7 +57,7 @@ docs :
 .PHONY : docs-all
 docs-all :
 	javadoc -cp  ".$(CPSEPARATOR)$(JARFILE)" -link $(DOCLINK) -private -sourcepath \
-	     -d $(ALLDOCDIR) $(DFSPACKAGES) test test.common test.naming \
+	     -d $(ALLDOCDIR) $(DFSPACKAGES) test test.commun test.naming \
 		test.util build
 
 # Create a source code archive.
